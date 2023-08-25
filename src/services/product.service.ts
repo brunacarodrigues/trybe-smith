@@ -6,4 +6,12 @@ const createProduct = async (product: ProductInputtableTypes): Promise<ProductSe
   return productCreated;
 };
 
-export default { createProduct };
+const getAllProducts = async (): Promise<ProductSequelizeModel[]> => {
+  const products = await productModel.findAll();
+  return products;
+};
+
+export default {
+  createProduct,
+  getAllProducts,
+};
