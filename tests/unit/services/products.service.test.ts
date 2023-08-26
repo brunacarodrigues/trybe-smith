@@ -28,7 +28,6 @@ describe('ProductsService', function () {
     sinon.stub(productModel, 'findAll').resolves(allProducts)
 
     const response = await chai.request(app).get('/products').send()
-
     expect(response.status).to.be.equal(200)
   })
 
