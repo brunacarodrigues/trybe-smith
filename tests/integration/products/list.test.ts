@@ -14,7 +14,7 @@ describe('GET /products', function () {
     // const allProducts = productModel.bulkBuild(listProductsMock.mockListProducts)
     sinon.stub(productModel, 'findAll').resolves(listProductsMock.mockListProducts as any)
 
-    const response = await chai.request(app).get('/products').send()
+    const response = await chai.request(app).get('/products')
     expect(response.status).to.be.equal(200)
   })
 
