@@ -1,8 +1,8 @@
-import express from 'express';
-import orderController from '../controllers/order.controller';
+// import express from 'express';
+// import orderController from '../controllers/order.controller';
 
-const orderRoute = express();
+// const orderRoute = express();
 
-orderRoute.get('/orders', orderController.getAllOrders);
+// orderRoute.get('/orders', orderController.getAllOrders);
 
-export default orderRoute;
+// export default orderRoute;

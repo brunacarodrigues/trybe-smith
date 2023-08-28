@@ -1,14 +1,14 @@
-import { Request, Response } from 'express';
-import orderService from '../services/order.service';
+// import { Request, Response } from 'express';
+// import orderService from '../services/order.service';
 
-const getAllOrders = async (req: Request, res: Response) => {
-  const allOrders = await orderService.getAllOrders();
+// const getAllOrders = async (req: Request, res: Response) => {
+//   const allOrders = await orderService.getAllOrders();
 
-  return res.status(200).json(allOrders);
-};
+//   return res.status(200).json(allOrders);
+// };
 
-const ordersController = {
-  getAllOrders,
-};
+// const ordersController = {
+//   getAllOrders,
+// };
 
-export default ordersController;
+// export default ordersController;
