@@ -11,8 +11,8 @@ describe('GET /products', function () {
   beforeEach(function () { sinon.restore(); });
   
   it('retorna todos os produtos cadastrados', async function () {
-    // const allProducts = productModel.bulkBuild(listProductsMock.mockListProducts)
-    sinon.stub(productModel, 'findAll').resolves(listProductsMock.mockListProducts as any)
+    const allProducts = productModel.bulkBuild(listProductsMock.mockListProducts)
+    sinon.stub(productModel, 'findAll').resolves(allProducts)
 
     const response = await chai.request(app).get('/products')
     expect(response.status).to.be.equal(200)

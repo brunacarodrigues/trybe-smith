@@ -7,8 +7,8 @@ const getAllOrders = async (req: Request, res: Response) => {
   return res.status(200).json(allOrders);
 };
 
-const ordersController = {
+const orderController = {
   getAllOrders,
 };
 
-export default ordersController;
+export default orderController;
