@@ -12,4 +12,8 @@ const login = async (req: Request, res: Response) => {
   return res.status(data.status).json({ token: data.message });
 };
 
-export default login;
+const loginController = {
+  login,
+};
+
+export default loginController;

@@ -1,9 +1,9 @@
 import express from 'express';
-import login from '../controllers/login.controller';
+import loginController from '../controllers/login.controller';
 import validateLogin from '../middleware/login.middleware';
 
 const loginRoute = express();
 
-loginRoute.post('/', validateLogin, login);
+loginRoute.post('/', validateLogin, loginController.login);
 
 export default loginRoute;

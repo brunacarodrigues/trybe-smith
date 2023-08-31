@@ -1,10 +1,10 @@
 import { expect } from 'chai';
-import sinon from 'sinon';
-import bcrypt from 'bcryptjs';
+import sinon, { SinonStub } from 'sinon';
 import loginService from '../../../src/services/login.service';
 import UserModel from '../../../src/database/models/user.model';
-import * as authService from '../../../src/services/auth.service';
-
+import { Request, Response, NextFunction } from 'express';
+import validateAuth from '../../../src/middleware/auth.middleware';
+import jwt from 'jsonwebtoken';
 
 describe('LoginService', function () {
   const { login } = loginService;
@@ -28,31 +28,28 @@ describe('LoginService', function () {
 
     findOneStub.restore();
   });
- 
-  it('deve retornar erro para senha inválida', async () => {
-    const loginData = {
-      username: 'validUsername',
-      password: 'invalidPassword',
-    };
 
-    const userResponse = {
-      id: 1,
-      username: loginData.username,
-      password: bcrypt.hashSync('validPassword', 10),
-      toJSON: () => ({ id: 1, username: 'validUsername', password: 'hashedPassword' }), // Simulando um método toJSON
-    };
+  it('deve retornar erro se o token for inválido', () => {
+    const token = 'invalidToken';
+    const authorizationHeader = `Bearer ${token}`;
+    const req = {
+      headers: { authorization: authorizationHeader },
+    } as unknown as Request;
+    const res = {
+      status: sinon.stub().returnsThis(),
+      json: sinon.stub(),
+    } as unknown as Response;
+    const next: NextFunction = sinon.stub() as unknown as NextFunction;
 
-    const findOneStub = sinon.stub(UserModel, 'findOne').resolves(userResponse as any);
-    const compareSyncStub = sinon.stub(bcrypt, 'compareSync').returns(false);
+    const verifyStub: SinonStub<[string, string], jwt.JwtPayload> = sinon.stub(jwt, 'verify') as any;
+    verifyStub.throws(new Error());
 
-    const result = await login(loginData);
+    validateAuth(req, res as Response, next);
 
-    expect(findOneStub.calledOnceWithExactly({ where: { username: loginData.username } })).to.be.true;
-    expect(compareSyncStub.calledOnceWithExactly(loginData.password, userResponse.password)).to.be.false;
-    expect(result).to.deep.equal({ status: 401, message: 'Username or password invalid' });
+    expect((res.status as SinonStub).firstCall.args[0]).to.equal(401);
+    expect((res.json as SinonStub).calledOnceWith({ message: 'Invalid token' })).to.be.true;
+    expect((next as SinonStub).notCalled).to.be.true;
 
-    findOneStub.restore();
-    compareSyncStub.restore();
+    sinon.restore();
   });
-  
 });

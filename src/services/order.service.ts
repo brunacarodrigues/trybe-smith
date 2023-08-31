@@ -12,17 +12,39 @@ const getAllOrders = async (): Promise<unknown[]> => {
     ],
   });
 
-  const OrderWithProducts = orders.map((order) => ({
+  const orderWithProducts = orders.map((order) => ({
     id: order.dataValues.id,
     userId: order.dataValues.userId,
-    productIds: order.dataValues.productIds?.map((product) => product.id) || [],
+    productIds: order.dataValues.productIds?.map((product) => product.id),
   }));
 
-  return OrderWithProducts;
+  return orderWithProducts;
+};
+
+interface Order {
+  id: number;
+}
+
+const createOrder = async (userId: number): Promise<unknown> => OrderModel.create({ userId });
+
+const updateProduct = async (productIds: number[], orderId: number):Promise<void> => {
+  const updatePromises = productIds.map((productId) =>
+    ProductModel.update({ orderId }, { where: { id: productId } }));
+  await Promise.all(updatePromises);
+};
+
+const createNewOrder = async (userId: number, productIds: number[]): Promise<unknown> => {
+  const newOrder = await createOrder(userId);
+  await updateProduct(productIds, (newOrder as Order).id);
+
+  return { userId, productIds };
 };
 
 const ordersService = {
   getAllOrders,
+  createOrder,
+  createNewOrder,
+  updateProduct,
 };
 
 export default ordersService;
