@@ -3,6 +3,7 @@ import chai, { expect } from 'chai';
 import chaiHttp from 'chai-http';
 import { Request, Response, NextFunction } from 'express';
 import validateNewOrder from '../../../src/middleware/order.middleware';
+import UserModel from '../../../src/database/models/user.model';
 
 chai.use(chaiHttp);
 
@@ -10,6 +11,10 @@ describe('GET /orders', function () {
   beforeEach(function () { sinon.restore(); });
 
   it('deve retornar erro para userId inválido', async () => {
+
+    const user = UserModel.build({ id: 3, username: 'John', vocation: 'guerreiro', level: 1, password: 'passvalid' });
+    sinon.stub(UserModel, 'findOne').resolves(null);
+
     const mockRequest = {
       body: {
         userId: 'invalidUserId',

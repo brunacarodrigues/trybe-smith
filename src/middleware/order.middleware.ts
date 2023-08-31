@@ -36,16 +36,15 @@ const validateNewOrder = async (req: Request, res: Response, next: NextFunction)
 Promise<unknown> => {
   const { userId, productIds } = req.body;
 
-  const userValidResult = await validateUserId(userId);
-  if (userValidResult) {
-    return res.status(userValidResult.status).json(userValidResult.message);
-  }
-
   const productValidResult = validateProductIds(productIds);
   if (productValidResult) {
     return res.status(productValidResult.status).json(productValidResult.message);
   }
 
+  const userValidResult = await validateUserId(userId);
+  if (userValidResult) {
+    return res.status(userValidResult.status).json(userValidResult.message);
+  }
   next();
 };
 
