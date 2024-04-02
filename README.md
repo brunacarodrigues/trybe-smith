@@ -1,10 +1,2 @@
-# :construction: README em construção ! :construction:
-<!-- Olá, Tryber!
-Esse é apenas um arquivo inicial para o README do seu projeto.
-É essencial que você preencha esse documento por conta própria, ok?
-Não deixe de usar nossas dicas de escrita de README de projetos, e deixe sua criatividade brilhar!
-:warning: IMPORTANTE: você precisa deixar nítido:
-- quais arquivos/pastas foram desenvolvidos por você; 
-- quais arquivos/pastas foram desenvolvidos por outra pessoa estudante;
-- quais arquivos/pastas foram desenvolvidos pela Trybe.
--->
+Projeto do módulo de Back-End.
+Criação de endpoints em uma API RESTful utilizando um framework web, como Express.js, para implementar funcionalidades de cadastro, listagem e autenticação de usuários, cadastro de pedidos, além de validações de dados de entrada para garantir a integridade e segurança da aplicação.
